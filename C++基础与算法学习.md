@@ -1,5 +1,5 @@
-﻿#C++基础与算法学习
-##1. 八大排序算法
+﻿# C++基础与算法学习
+## 1. 八大排序算法
 * <font size=4> 直接插入排序 </font>
 * <font size=4> 希尔排序 </font>
 * <font size=4> 选择排序 </font>
@@ -8,9 +8,9 @@
 * <font size=4> 快速排序 </font>
 * <font size=4> 基数排序 </font>
 
-##2. 单例模式实现
+## 2. 单例模式实现
 
-##3. 拷贝构造函数
+## 3. 拷贝构造函数
 <em>**为什么复制构造函数的参数需要加const和引用?**</em>
 3.1 首先跑一个小程序，看下调用关系。
 ```
@@ -55,23 +55,23 @@ int main()
 【输出结果】
 ![内存对齐][1]
 【分析结果】
->第一个输出： constructor with argument.     //CExample aaa(2);
+> 第一个输出： constructor with argument.     //CExample aaa(2);
 
 这里创建了变量aaa，在创建的同时还带有参数2，那就调用带参数的构造函数
 
->第二个输出：constructor with argument.     //CExample bbb(3);
+> 第二个输出：constructor with argument.     //CExample bbb(3);
 
 分析同第一个
 
->第三个输出：assignment operator.             //bbb = aaa;
+> 第三个输出：assignment operator.             //bbb = aaa;
 
 bbb之前已经创建了，所以这个不会调用构造函数，而只是将aaa赋值给bbb，所以调用赋值函数。
 
->第四个输出：copy constructor.    //CExample ccc = aaa;
+> 第四个输出：copy constructor.    //CExample ccc = aaa;
 
 这个和上一个的区别就在于：bbb之前已经创建过了，而这里的ccc是在这条语句才创建的，所以这里是在创建ccc的同时将aaa赋值给ccc，所以这句调用的肯定是构造函数，又因为需要将aaa赋值给ccc，所以调用的是拷贝构造函数。
 
->第五个输出：copy constructor.     //  bbb.myTestFunc(aaa);
+> 第五个输出：copy constructor.     //  bbb.myTestFunc(aaa);
 
 这里是调用了一个自己写的myTestFunc函数，其中这个函数中的参数没有采用引用，那就是值传递的方式。就是编译器先创建一个类型为CExample名称为ex的对象，然后将aaa的值传递给ex（值传递方式的特性），将相当于要执行一条CExample ex = aaa的语句。经第四个输出的分析可知，这需要调用拷贝构造函数。所以输出copy constrctor。
 
@@ -82,7 +82,7 @@ bbb之前已经创建了，所以这个不会调用构造函数，而只是将aa
 3.3 为什么要用const？
 【正确答案】如果在函数中不会改变引用类型参数的值，加不加const的效果是一样的。而且不加const，编译器也不会报错。但是为了整个程序的安全，还是加上const，防止对引用类型参数值的意外修改。
 
-##4. 深拷贝与浅拷贝
+## 4. 深拷贝与浅拷贝
 当用一个已初始化过了的自定义类类型对象去初始化另一个新构造的对象的时候，拷贝构造函数就会被自动调用。也就是说，当类的对象需要拷贝时，拷贝构造函数将会被调用。以下情况都会调用拷贝构造函数：
 （1）一个对象以值传递的方式传入函数体;
 （2）一个对象以值传递的方式从函数返回;
@@ -110,10 +110,10 @@ Array(const Array &arr){ /// 拷贝构造函数
       m_iCount = arr.m_iCount;   //浅拷贝
 }
 ```
-##5. 运算符重载 >>  <<  ==  []  
+## 5. 运算符重载 >>  <<  ==  []  
 
 
-##6. 内存对齐
+## 6. 内存对齐
 * 内存对齐的作用：
 >(1)平台原因：不是所有的硬件平台都能访问任意内存地址上的任意数据的；某些硬件平台只能在某些地址取得特定类型的数据，否则会抛出硬件异常。
 >(2)性能原因：经过内存对齐后，减少了CPU访问内存的总线周期数，速度大大提升。
