@@ -125,5 +125,6 @@ Array(const Array &arr){ /// 拷贝构造函数
 ![内存对齐example][2]
 
 
-  [1]: https://github.com/FLHonker/Cplus-engineer/images/copy-constructor.png
-  [2]: https://github.com/FLHonker/Cplus-engineer/images/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90ex.jpg
+  [1]: https://github.com/FLHonker/Cplus-engineer/blob/master/images/copy-constructor.png?raw=true
+  [2]: https://github.com/FLHonker/Cplus-engineer/blob/master/images/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90ex.jpg?raw=true
+  
