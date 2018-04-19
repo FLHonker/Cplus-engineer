@@ -44,6 +44,39 @@ void InsertSort(int arr[], int n)
 	}
 }
 
+/**************************************************************
+ *
+ * 插入排序——希尔排序(Shell's Sort) or 缩小增量排序
+ * 时间复杂度：不确定
+ * 不稳定的排序。
+ *
+***************************************************************/
+void ShellInsertSort(int arr[], int n, int dk)
+{
+	for(int i=dk; i<n; ++i)
+	{
+		if(arr[i] < arr[i-dk])  //若第i个元素大于i-1元素，直接插入;小于的话，移动有序表后插入.
+		{
+			int temp = arr[i];   //设置哨兵
+			//arr[i] = arr[i-dk];   //首先后移一个元素
+			//直接插入排序
+			int j=i-dk;
+			for(; j>=0 && temp < arr[j]; j-=dk)
+			{
+				arr[j+dk] = arr[j];
+			}
+			arr[j+dk] = temp;
+		}
+	}
+}
+//缩小增量迭代
+void ShellSort(int arr[], int n)
+{
+	for(int dk = n/2; dk >= 1; dk/=2)
+		ShellInsertSort(arr, n, dk);
+}
+
+
 
 /**
  * 输出数组元素
@@ -60,6 +93,9 @@ int main()
 	int a[] = {7,4,5,2,0,6,5,42,32,1,1,23};
 	InsertSort(a, 12);
 	printArray(a, 12);
+	int b[] = {5,3,95,0,12,4,5,7,66,20,3,3,45};
+	ShellSort(b, 13);
+	printArray(b, 13);
 	
 	return 0;
 }
