@@ -1,12 +1,37 @@
 ﻿# C++基础与算法学习
+
 ## 1. 八大排序算法
+_参考：[CSDN八大经典排序算法](https://blog.csdn.net/youzhouliu/article/details/52311443)_
+### 排序算法分类
+![排序算法分类](https://github.com/FLHonker/Cplus-engineer/blob/master/images/sort-alg.jpg?raw=true)
+
+-----
+
 * <font size=4> 直接插入排序 </font>
+
+<font color="#0000cc" face="宋体" >**基本思想:**</font>
+将一个记录插入到已排序好的有序表中，从而得到一个新，记录数增1的有序表。即：先将序列的第1个记录看成是一个有序的子序列，然后从第2个记录逐个进行插入，直至整个序列有序为止。
+_要点：设立哨兵，作为临时存储和判断数组边界之用。_
+
+---
 * <font size=4> 希尔排序 </font>
+
+---
 * <font size=4> 选择排序 </font>
+
+---
 * <font size=4> 堆排序 </font>
+
+---
 * <font size=4> 冒泡排序 </font>
 * <font size=4> 快速排序 </font>
 * <font size=4> 基数排序 </font>
+
+---
+> **八大排序算法性能比较表**
+>![八大排序算法比较表](https://github.com/FLHonker/Cplus-engineer/blob/master/images/sort-compare.jpg?raw=true)
+<i>当n较大，则应采用时间复杂度为O(nlog<sub>2</sub>n)的排序方法：快速排序、堆排序或归并排序序。
+   快速排序：是目前基于比较的内部排序中被认为是最好的方法，当待排序的关键字是随机分布时，快速排序的平均时间最短。</i>
 
 ## 2. 单例模式实现
 
@@ -80,7 +105,8 @@ bbb之前已经创建了，所以这个不会调用构造函数，而只是将aa
 3.2 为什么要用引用？
 【错误答案】个人第一反应：为了减少一次内存拷贝。
 【正确答案】由上节的第五个输出分析可知，在执行bbb.myTestFunc(aaa);时，其实会调用拷贝构造函数。如果我们的拷贝构造函数的参数不是引用，那么在bbb.myTestFunc(aaa);时，调用CExample ex = aaa;，又因为ex之前没有被创建，所以又需要调用拷贝构造函数，故而又执行CExample ex = aaa;，就这样永远的递归调用下去了。
-**所以， 拷贝构造函数是须要带引用类型的参数的，而且这也是编译器强制性要求的。C++的标准不允许复制构造函数传值参数，只能将构造函数修改为A（const A& other），也就是把传值参数改为常量引用。（注意：传指针也是不可以的，只能改为引用）。**
+>**所以， 拷贝构造函数是须要带引用类型的参数的，而且这也是编译器强制性要求的。C++的标准不允许复制构造函数传值参数，只能将构造函数修改为A（const A& other），也就是把传值参数改为常量引用。（注意：传指针也是不可以的，只能改为引用）。**
+
 3.3 为什么要用const？
 【正确答案】如果在函数中不会改变引用类型参数的值，加不加const的效果是一样的。而且不加const，编译器也不会报错。但是为了整个程序的安全，还是加上const，防止对引用类型参数值的意外修改。
 
@@ -182,11 +208,12 @@ connect(sockClient, (struct  sockaddr*)&addrSrv, sizeof(addrSrv));
 char buff[1024];
 recv(sockClient, buff, sizeof(buff), 0);
 ```
-(10) send函数：发送数据，里面的参数基本和recv（）一样。
+(10) send函数：发送数据，里面的参数基本和recv()一样。
 
 [服务端代码cpp](https://github.com/FLHonker/Cplus-engineer/blob/master/C++/tcp-com/tcp-communication-server.cpp)
-[客户端代码cpp](https://github.com/FLHonker/Cplus-engineer/blob/master/C++/tcp-com/tcp-communication-client.cpp)
+
+[客户端代码cpp](https://github.com/FLHonker/Cplus-engineer/blob/master/C++/tcp-com/tcp-communication-client.cpp)		
+
 [服务端的class实现](https://github.com/FLHonker/Cplus-engineer/blob/master/C++/tcp-com/tcp-server-class.cpp)
 
-## 8. 
-  
+## 8. C++内存管理（内存模型）

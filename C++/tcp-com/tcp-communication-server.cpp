@@ -15,7 +15,7 @@
 * 20180416         V1.0              Frank                  create
 *******************************************************************************/
 #include <iostream>
-#include <winsock2.h>
+#include <Winsock2.h>
 #include <cstdlib>
 #include <cstdio>
 #pragma comment(lib, "ws2_32.lib")  //引用Ws2_32.dll动态链接库文件
