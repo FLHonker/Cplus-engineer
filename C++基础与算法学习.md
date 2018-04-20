@@ -321,3 +321,7 @@ recv(sockClient, buff, sizeof(buff), 0);
 [服务端的class实现](https://github.com/FLHonker/Cplus-engineer/blob/master/C++/tcp-com/tcp-server-class.cpp)
 
 ## 8. C++内存管理（内存模型）
+
+## 9. 字符串朴素匹配算法和KMP
+
+### 10. C++中虚继承的作用及底层实现原理
