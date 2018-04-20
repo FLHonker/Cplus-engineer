@@ -78,8 +78,51 @@ void ShellSort(int arr[], int n)
 希尔排序时效分析很难，关键码的比较次数与记录移动次数依赖于增量因子序列d的选取，特定情况下可以准确估算出关键码的比较次数和记录的移动次数。目前还没有人给出选取最好的增量因子序列的方法。增量因子序列可以有各种取法，有取奇数的，也有取质数的，但需要注意：增量因子中除1 外没有公因子，且最后一个增量因子必须为1。希尔排序方法是一个不稳定的排序方法。
 
 ---
-* <font size=4> 选择排序 </font>
-
+* <font size=4> simple选择排序 </font>
+<font color="#0000cc" face="宋体" >**基本思想:**</font>
+在要排序的一组数中，选出最小（或者最大）的一个数与第1个位置的数交换；然后在剩下的数当中再找最小（或者最大）的与第2个位置的数交换，依次类推，直到第n-1个元素（倒数第二个数）和第n个元素（最后一个数）比较为止。
+<font color="#0000cc" face="宋体" >**操作方法:**</font>
+第一趟，从n 个记录中找出关键码最小的记录与第一个记录交换；
+第二趟，从第二个记录开始的n-1 个记录中再选出关键码最小的记录与第二个记录交换；
+以此类推.....
+第i 趟，则从第i 个记录开始的n-i+1 个记录中选出关键码最小的记录与第i 个记录交换，
+直到整个序列按关键码有序。
+```
+void sSelectionSort(int arr[], int n)
+{
+    unsigned int index;
+    for(unsigned int i=0; i<n; ++i)
+    {
+        index = i;
+        for(unsigned int j=i+1; j<n; ++j)
+        {
+            if(arr[j]<arr[index])
+                index = j;
+        }
+        swap (arr[i], arr[index]);
+    }
+}
+```
+**simple选择排序的改进——二元选择排序**
+简单选择排序，每趟循环只能确定一个元素排序后的定位。我们可以考虑改进为每趟循环确定两个元素（当前趟最大和最小记录）的位置,从而减少排序所需的循环次数。改进后对n个数据进行排序，最多只需进行[n/2]趟循环即可。具体实现如下：
+```
+void Select2Sort(int arr[], int n)
+ {
+    for(unsigned int i=0; i < n/2; ++i)
+    {
+        unsigned int min = i, max = n-1-i;
+        for(unsigned int j=i+1; j<n-1-i; ++j)
+        {
+            if(arr[j]<arr[min])
+                min = j;
+            else if(arr[j]>arr[max])
+                max = j;
+        }
+        swap(arr[i], arr[min]);
+        swap(arr[n-1-i], arr[max]);
+    }
+ }
+ ```
 ---
 * <font size=4> 堆排序 </font>
 

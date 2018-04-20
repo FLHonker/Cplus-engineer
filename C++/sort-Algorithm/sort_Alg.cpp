@@ -20,6 +20,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <algorithm>
 
 using namespace std;
 
@@ -77,6 +78,49 @@ void ShellSort(int arr[], int n)
 }
 
 
+/**************************************************************
+ *
+ * 选择排序——简单选择排序(Simple Selection Sort) 
+ * 时间复杂度：O(n)=2^n
+ *
+***************************************************************/
+void sSelectionSort(int arr[], int n)
+{
+    unsigned int index;
+    for(unsigned int i=0; i<n; ++i)
+    {
+        index = i;
+        for(unsigned int j=i+1; j<n; ++j)
+        {
+            if(arr[j]<arr[index])
+                index = j;
+        }
+        swap (arr[i], arr[index]);
+    }
+}
+
+/**************************************************************
+ *
+ * 选择排序——简单选择排序的改进——二元选择排序
+ * 每趟选出两个最小和最大元素，只需要[n/2]趟。
+ *
+ **************************************************************/
+ void Select2Sort(int arr[], int n)
+ {
+    for(unsigned int i=0; i < n/2; ++i)
+    {
+        unsigned int min = i, max = n-1-i;
+        for(unsigned int j=i+1; j<n-1-i; ++j)
+        {
+            if(arr[j]<arr[min])
+                min = j;
+            else if(arr[j]>arr[max])
+                max = j;
+        }
+        swap(arr[i], arr[min]);
+        swap(arr[n-1-i], arr[max]);
+    }
+ }
 
 /**
  * 输出数组元素
@@ -96,6 +140,12 @@ int main()
 	int b[] = {5,3,95,0,12,4,5,7,66,20,3,3,45};
 	ShellSort(b, 13);
 	printArray(b, 13);
-	
+    int c[]={4,54,6,0,2,2,35,41,20,1,7};
+    sSelectionSort(c, 11);
+    printArray(c, 11);
+    int d[]={4,54,6,0,2,2,35,41,20,1,7};
+    Select2Sort(d, 11);
+    printArray(d, 11);
+
 	return 0;
 }
