@@ -31,6 +31,7 @@ void InsertSort(int arr[], int n)
 }
 
 ```
+<font color="#ff3300" face="宋体">* 其他插入排序：二分插入排序，2-路插入排序</font>
 
 ---
 
@@ -128,7 +129,11 @@ void Select2Sort(int arr[], int n)
 
 ---
 * <font size=4> 冒泡排序 </font>
+
+---
 * <font size=4> 快速排序 </font>
+
+---
 * <font size=4> 基数排序 </font>
 
 ---
