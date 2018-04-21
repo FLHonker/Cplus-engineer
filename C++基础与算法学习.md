@@ -6,7 +6,7 @@ _参考：
 [2. CSDN稳定与不稳定排序方法](https://blog.csdn.net/stand1210/article/details/52403569)_
 
 #### 1.0 排序算法分类
-![排序算法分类](https://github.com/FLHonker/Cplus-engineer/blob/master/images/sort-alg.jpg?raw=true)
+![排序算法分类](./images/sort-alg.jpg)
 
 -----
 
