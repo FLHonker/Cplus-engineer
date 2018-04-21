@@ -6,7 +6,7 @@ _参考：
 [2. CSDN稳定与不稳定排序方法](https://blog.csdn.net/stand1210/article/details/52403569)_
 
 #### 1.0 排序算法分类
-![排序算法分类](./images/sort-alg.jpg)
+![排序算法分类](./images/C-img/sort-alg.jpg)
 
 -----
 
@@ -217,7 +217,7 @@ void HeapSort(int H[], int n)
 
 ---
 > **八大排序算法性能比较表**
->![八大排序算法比较表](https://github.com/FLHonker/Cplus-engineer/blob/master/images/sort-compare.jpg?raw=true)
+>![八大排序算法比较表](./images/C-img/sort-compare.jpg)
 <i>当n较大，则应采用时间复杂度为O(nlog<sub>2</sub>n)的排序方法：快速排序、堆排序或归并排序序。
    快速排序：是目前基于比较的内部排序中被认为是最好的方法，当待排序的关键字是随机分布时，快速排序的平均时间最短。</i>
 
@@ -305,7 +305,7 @@ int main()
 【输出结果】
 
 ![内存对齐][1]
-[1]: https://github.com/FLHonker/Cplus-engineer/blob/master/images/copy-constructor.png?raw=true
+[1]: ./images/C-img/copy-constructor.png
 【分析结果】
 > 第一个输出： constructor with argument.     //CExample aaa(2);
 
@@ -375,7 +375,7 @@ Array(const Array &arr){ /// 拷贝构造函数
 >(2)各数据成员对齐后，类（结构体或联合）也进行对齐，偏移量为最大字段长度的整数倍。
 * 关于#pragma pack(n)
 > 作为一个预编译命令来设置内存对齐的粒度。n的缺省值是按照编译器自身设置，一般为8，合法数值分别是1,2,4,8,16；若n为其他值是无效的。
-<img src="https://github.com/FLHonker/Cplus-engineer/blob/master/images/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90ex.jpg?raw=true" width = "480" height = "500" alt="内存对齐example" align=center />
+<img src="./images/C-img/内存对齐ex.jpg" width = "480" height = "500" alt="内存对齐example" align=center />
     
 ## 7. C++的TCP通信（多线程）
 > 简述：TCP通信服务端和客户端代码是不同的。首先，服务端有一个ServerSocket，初始化以后（包括设置IP和端口，绑定监听等过程），这些都设置好以后，就可以使用accept（）方法等待客户端连接了，这个方法是阻塞的。一旦连接成功，就会返回一个新的Socket，使用这个Socket就可以接收数据和发送数据了。客户端自始始终都只有一个Socket，这个Socket初始化以后，使用connect()方法和服务器进行连接，连接成功后，这个Socket就可以进行通信了。
@@ -435,7 +435,7 @@ recv(sockClient, buff, sizeof(buff), 0);
 ```
 (10) send函数：发送数据，里面的参数基本和recv()一样。
 
-[服务端代码cpp](https://github.com/FLHonker/Cplus-engineer/blob/master/C++/tcp-com/tcp-communication-server.cpp)
+[服务端代码cpp](./C++/tcp-com/tcp-communication-server.cpp)
 
 [客户端代码cpp](https://github.com/FLHonker/Cplus-engineer/blob/master/C++/tcp-com/tcp-communication-client.cpp)		
 
