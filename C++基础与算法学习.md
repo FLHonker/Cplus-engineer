@@ -204,6 +204,21 @@ void HeapSort(int H[], int n)
 ```
 ---
 #### 1.5 冒泡排序 
+这个不用多说，和选择排序很像，区别是每次找出相对大的数立即交换位置，直到冒泡到最后面，交换次数较多。
+
+```
+void BubbleSort(int arr[], int n)
+{
+    for(int i=0; i < n; ++i)   //一共跑n趟
+    {
+        for(int j=0; j < n-1-i; ++j)   //将大数冒泡到最后面
+        {
+            if(arr[j+1] < arr[j])
+                swap(arr[j], arr[j+1]);
+        }
+    }
+}
+```
 
 ---
 #### 1.6 快速排序
