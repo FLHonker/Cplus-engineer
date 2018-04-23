@@ -91,7 +91,8 @@ void ShellSort(int arr[], int n)
 以此类推.....
 第i 趟，则从第i 个记录开始的n-i+1 个记录中选出关键码最小的记录与第i 个记录交换，
 直到整个序列按关键码有序。
-```
+
+```c++
 void sSelectionSort(int arr[], int n)
 {
     unsigned int index;
@@ -109,7 +110,7 @@ void sSelectionSort(int arr[], int n)
 ```
 **simple选择排序的改进——二元选择排序**
 简单选择排序，每趟循环只能确定一个元素排序后的定位。我们可以考虑改进为每趟循环确定两个元素（当前趟最大和最小记录）的位置,从而减少排序所需的循环次数。改进后对n个数据进行排序，最多只需进行[n/2]趟循环即可。具体实现如下：
-```
+```c++
 void Select2Sort(int arr[], int n)
  {
     for(unsigned int i=0; i < n/2; ++i)
@@ -206,7 +207,7 @@ void HeapSort(int H[], int n)
 #### 1.5 冒泡排序 
 这个不用多说，和选择排序很像，区别是每次找出相对大的数立即交换位置，直到冒泡到最后面，交换次数较多。
 
-```
+```c++
 void BubbleSort(int arr[], int n)
 {
     for(int i=0; i < n; ++i)   //一共跑n趟
@@ -223,7 +224,95 @@ void BubbleSort(int arr[], int n)
 ---
 #### 1.6 快速排序
 
+<font color="#0000cc" face="宋体" >**基本思想:**</font>
 
+1）选择一个基准元素,通常选择第一个元素或者最后一个元素;
+
+2）通过一趟排序讲待排序的记录分割成独立的两部分，其中一部分记录的元素值均比基准元素值小,另一部分记录的 元素值比基准值大;
+
+3）此时基准元素在其排好序后的正确位置;
+
+4）然后分别对这两部分记录用同样的方法继续进行排序，直到整个序列有序。
+
+<font color="#0000cc" face="宋体" >**分析:**</font>
+
+快速排序是通常被认为在同数量级（O(nlog<sub>2</sub>n)）的排序方法中平均性能最好的。但若初始序列按关键码有序或基本有序时，快排序反而蜕化为冒泡排序。为改进之，通常以“三者取中法”来选取基准记录，即将排序区间的两个端点与中点三个记录关键码居中的调整为支点记录。快速排序是一个不稳定的排序方法。
+
+```c++
+/**************************************************************
+ *
+ * 交换排序——快速排序（Quick Sort）
+ * 递归实现
+ * 时间复杂度：O(n) = nlogn 
+ * 不稳定排序
+ **************************************************************/
+
+ // 将表一分为二
+template <typename T>
+int partation(T arr[], int low, int high)
+{
+    T privotkey = arr[low];   //基准元素
+    while(low < high)    //从表的两端交替向中间扫描
+    {
+        while(low < high && arr[high] >= privotkey) 
+           --high;
+        swap(arr[low], arr[high]);
+        while(low < high && arr[low] <= privotkey)
+           ++low;
+        swap(arr[low], arr[high]);
+    }
+    return low;
+}
+
+// 递归快排
+void QuickSort(int arr[], int low, int high)
+{
+    if(low < high)
+    {
+        int privotkey = partation(arr, low, high);  //划分表
+        QuickSort(arr, low, privotkey -1);   //递归对低子表排序
+        QuickSort(arr, privotkey +1, high);   //递归对高子表排序
+    }
+}
+
+```
+
+<font color="#0000cc" face="宋体" >**快速排序的改进:**</font>
+
+在本改进算法中,只对长度大于k的子序列递归调用快速排序,让原序列基本有序，然后再对整个基本有序序列用插入排序算法排序。实践证明，改进后的算法时间复杂度有所降低，且当k取值为 8 左右时,改进算法的性能最佳。
+
+```c++
+/**
+ * 快速排序的改进：high-low > k时进行递归子排序使之基本有序，
+ * 小于k时再进行插入排序。其中，k 为指定值，k = 8 时性能最佳。
+ */
+void qSort_improve(int arr[], int low, int high, int k)
+{
+    if(high - low > k)   //长度大于k 时递归
+    {
+        int privotkey = partation(arr, low, high);   //调用partation的算法不变
+        qSort_improve(arr, low, privotkey -1, k);
+        qSort_improve(arr, privotkey +1, high, k);
+    }
+}
+void QuickSort_improve(int arr[], int n, int k)
+{
+    qSort_improve(arr, 0, n, k);
+
+    //再用插入排序对基本有序序列排序
+    for(int i =0; i < n; ++i)
+    {
+        int temp = arr[i];
+        int j = i - 1;
+        for( ;j >= 0 && temp < arr[j]; --j)
+        {
+            swap(arr[j], arr[j+1]);
+        }
+        arr[j+1] = temp;
+    }
+}
+
+```
 ---
 #### 1.7 归并排序
 

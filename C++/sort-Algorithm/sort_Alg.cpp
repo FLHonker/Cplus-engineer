@@ -37,7 +37,7 @@ void InsertSort(int arr[], int n)
 	for (i = 1; i<n; ++i)
 	{
 		temp = arr[i];    //设置哨兵，标记数组边界
-		for(j = i-1; j>=0 && temp<arr[j]; --j)
+		for(j = i-1; j>=0 && temp < arr[j]; --j)
 		{
 			arr[j+1] = arr[j];   //向后移动元素一格
 		}
@@ -208,8 +208,74 @@ void BubbleSort(int arr[], int n)
 /**************************************************************
  *
  * 交换排序——快速排序（Quick Sort）
- * 时间复杂度：O(n) = 
+ * 递归实现
+ * 时间复杂度：O(n) = nlogn 
  * 不稳定排序
+ **************************************************************/
+
+ // 将表一分为二
+template <typename T>
+int partation(T arr[], int low, int high)
+{
+    T privotkey = arr[low];   //基准元素
+    while(low < high)    //从表的两端交替向中间扫描
+    {
+        while(low < high && arr[high] >= privotkey) 
+           --high;
+        swap(arr[low], arr[high]);
+        while(low < high && arr[low] <= privotkey)
+           ++low;
+        swap(arr[low], arr[high]);
+    }
+    return low;
+}
+
+// 递归快排
+void QuickSort(int arr[], int low, int high)
+{
+    if(low < high)
+    {
+        int privotkey = partation(arr, low, high);  //划分表
+        QuickSort(arr, low, privotkey -1);   //递归对低子表排序
+        QuickSort(arr, privotkey +1, high);   //递归对高子表排序
+    }
+}
+
+/**
+ * 快速排序的改进：high-low > k时进行递归子排序使之基本有序，
+ * 小于k时再进行插入排序。其中，k 为指定值，k = 8 时性能最佳。
+ */
+void qSort_improve(int arr[], int low, int high, int k)
+{
+    if(high - low > k)   //长度大于k 时递归
+    {
+        int privotkey = partation(arr, low, high);   //调用partation的算法不变
+        qSort_improve(arr, low, privotkey -1, k);
+        qSort_improve(arr, privotkey +1, high, k);
+    }
+}
+void QuickSort_improve(int arr[], int n, int k)
+{
+    qSort_improve(arr, 0, n, k);
+
+    //再用插入排序对基本有序序列排序
+    for(int i =0; i < n; ++i)
+    {
+        int temp = arr[i];
+        int j = i - 1;
+        for( ;j >= 0 && temp < arr[j]; --j)
+        {
+            swap(arr[j], arr[j+1]);
+        }
+        arr[j+1] = temp;
+    }
+}
+
+/**************************************************************
+ *
+ * 归并排序（Merge Sort）
+ * 时间复杂度：O(n) = 
+ * 稳定排序
  **************************************************************/
 
 
@@ -243,6 +309,12 @@ int main()
     int f[]={95,5,4,6,23,0,27,12,3,54,5};
     BubbleSort(f, 11);
     printArray(f, 11);
+    int g[]={58,6,2,54,51,0,2,32,5,1,5,7};
+    QuickSort(g, 0, 11);
+    printArray(g, 12);
+    int h[] = {21,4,5,0,21,7,84,56,32,1,11,47};
+    QuickSort_improve(h, 12, 4);
+    printArray(h, 12);
 
 	return 0;
 }
