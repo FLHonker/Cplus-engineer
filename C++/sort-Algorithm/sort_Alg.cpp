@@ -195,7 +195,7 @@ void HeapSort(int H[], int n)
  **************************************************************/
 void BubbleSort(int arr[], int n)
 {
-    for(int i=0; i < n; ++i)   //一共跑n趟
+    for(int i=0; i < n - 1; ++i)   //一共跑n-1趟
     {
         for(int j=0; j < n-1-i; ++j)   //将大数冒泡到最后面
         {
