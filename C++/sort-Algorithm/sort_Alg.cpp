@@ -277,7 +277,62 @@ void QuickSort_improve(int arr[], int n, int k)
  * 时间复杂度：O(n) = 
  * 稳定排序
  **************************************************************/
+ //二路归并算法
+ //将r[i…m]和r[m +1 …n]归并到辅助数组rf[i…n] 
+ template <typename T>
+void Merge(T *r, T *rf, int i, int m, int n)
+{
+	int j = m+1, k = i;
+	for (j = m+1, k=i; i <= m && j <= n; ++k)
+	{
+		if(r[i] > r[j])
+			rf[k] = r[i++];
+		else rf[k] = r[j++];
+	}
+	while(i <= m)  rf[k++] = r[i++];
+	while(j <= n)  rf[k++] = r[j++];
+}
 
+// 1. 归并排序的迭代算法
+template <typename T>
+void MergeSort_iteration(T *r, T *rf, int n)
+{
+	int len = 1;
+	T *q = r;
+	while(len < n)
+	{
+		int s = len;
+		len = len << 1;   //x2
+		//对等长的两个子表合并
+		int i = 0;
+		for( ; len + i < n; i += len)    
+			Merge(q, rf, i, i +s -1, i +len -1);   //子表不包含末尾项，长度为s -i
+		//对不等长的两个子表合并  
+		if(i + s < n)
+			Merge(q, rf, i, i +s -1, n -1);
+		swap(q, rf);   //交换q,rf，以保证下一趟归并时仍然从q归并到rf。
+	}
+}
+
+// 2. 归并排序的递归算法
+template <typename T>
+void MSort_recursive(T *r, T *rf, int start, int end)
+{
+	T *rf2;
+	if(start == end)
+		rf[start] = r[start];
+	else {
+		int m =(start + end)/2;    //平分*r 表
+		MSort_recursive(r, rf2, start, m);   //递归地将r[s…m]归并为有序的rf2[s…m]
+		MSort_recursive(r, rf2, m +1, end);  //递归地将r[m+1…e]归并为有序的rf2[m+1…e]
+		Merge(rf2, rf, start, m, end);        //将rf2[s…m]和rf2[m+1…e]归并到p1[s…e]
+	}
+}
+
+void MergeSort_recursive(T *r, T *rf, int n)
+{
+	MSort_recursive(r, rf, 0, n -1);   
+}
 
 /**
  * 输出数组元素
@@ -314,7 +369,15 @@ int main()
     printArray(g, 12);
     int h[] = {21,4,5,0,21,7,84,56,32,1,11,47};
     QuickSort_improve(h, 12, 4);
-    printArray(h, 12);
+	printArray(h, 12);
+	int i[] = {21,4,5,0,21,7,84,56,32,1,11,47};
+	int i2[12];
+	MergeSort_iteration(i, i2, 0, 12);
+	printArray(i2, 12);
+	int j[]={58,6,2,54,51,0,2,32,5,1,5,7};
+	in j2[11];
+	MergeSort_recursive(j, j2, 11);
+    printArray(j2, 11);
 
 	return 0;
 }
