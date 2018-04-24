@@ -84,8 +84,10 @@ void ShellSort(int arr[], int n)
 ---
 #### 1.3 simple选择排序
 <font color="#0000cc" face="宋体" >**基本思想:**</font>
+
 在要排序的一组数中，选出最小（或者最大）的一个数与第1个位置的数交换；然后在剩下的数当中再找最小（或者最大）的与第2个位置的数交换，依次类推，直到第n-1个元素（倒数第二个数）和第n个元素（最后一个数）比较为止。
 <font color="#0000cc" face="宋体" >**操作方法:**</font>
+
 第一趟，从n 个记录中找出关键码最小的记录与第一个记录交换；
 第二趟，从第二个记录开始的n-1 个记录中再选出关键码最小的记录与第二个记录交换；
 以此类推.....
@@ -110,6 +112,7 @@ void sSelectionSort(int arr[], int n)
 ```
 **simple选择排序的改进——二元选择排序**
 简单选择排序，每趟循环只能确定一个元素排序后的定位。我们可以考虑改进为每趟循环确定两个元素（当前趟最大和最小记录）的位置,从而减少排序所需的循环次数。改进后对n个数据进行排序，最多只需进行[n/2]趟循环即可。具体实现如下：
+
 ```c++
 void Select2Sort(int arr[], int n)
  {
@@ -205,6 +208,7 @@ void HeapSort(int H[], int n)
 ```
 ---
 #### 1.5 冒泡排序 
+
 这个不用多说，和选择排序很像，区别是每次找出相对大的数立即交换位置，直到冒泡到最后面，交换次数较多。
 
 ```c++
@@ -316,6 +320,89 @@ void QuickSort_improve(int arr[], int n, int k)
 ---
 #### 1.7 归并排序
 
+<font color="#0000cc" face="宋体" >**基本思想:**</font>
+
+归并（Merge）排序法是将两个（或两个以上）有序表合并成一个新的有序表，即把待排序序列分为若干个子序列，每个子序列是有序的,然后再把有序子序列合并为整体有序序列。
+
+<font color="#0000cc" face="宋体" >**合并方法:**</font>
+
+设r[i…n]由两个有序子表r[i…m]和r[m+1…n]组成，两个子表长度分别为m-i+1、n-m。
+
+1. j=m+1；k=i；i=i; //置两个子表的起始下标及辅助数组的起始下标
+2. 若i>m 或j>n，转⑷ //其中一个子表已合并完，比较选取结束
+3. //选取r[i]和r[j]较小的存入辅助数组rf
+   如果r[i]<r[j]，rf[k]=r[i]； i++； k++； 转⑵
+   否则，rf[k]=r[j]； j++； k++； 转⑵
+4. //将尚未处理完的子表中元素存入rf
+   如果i<=m，将r[i…m]存入rf[k…n] //前一子表非空
+   如果j<=n ,  将r[j…n] 存入rf[k…n] //后一子表非空
+5. 合并结束。
+
+```c++
+/**************************************************************
+ *
+ * 归并排序（Merge Sort）
+ * 时间复杂度：O(n) = nlogn
+ * 稳定排序
+ **************************************************************/
+//二路归并算法
+//将r[i…m]和r[m +1 …n]归并到辅助数组rf[i…n] 
+template <typename T>
+void Merge(T *r, T *rf, int i, int m, int n)
+{
+	int j, k;
+	for (j = m+1, k=i; i <= m && j <= n; ++k)
+	{
+		if(r[i] < r[j]) rf[k] = r[i++];
+		else rf[k] = r[j++];
+	}
+	while(i <= m)  rf[k++] = r[i++];
+	while(j <= n)  rf[k++] = r[j++];
+}
+
+// 1. 归并排序的迭代算法
+template <typename T>
+void MergeSort_iteration(T *r, T *rf, int n)
+{
+	int len = 1;
+	T *q = r;
+	while(len < n)
+	{
+		int s = len;
+		len = len << 1;   //x2
+		//对等长的两个子表合并
+		int i = 0;
+		for( ; len + i < n; i += len)    
+			Merge(q, rf, i, i +s -1, i +len -1); 
+		//对不等长的两个子表合并  
+		if(i + s < n)
+			Merge(q, rf, i, i +s -1, n -1);
+		swap(q, rf);   //交换q,rf，以保证下一趟归并时仍然从q归并到rf。
+	}
+}
+
+// 2. 归并排序的递归算法
+template <typename T>
+void MSort_recursive(T *r, T *rf, int start, int end)
+{
+	T *rf2 = new T[end - start +1];   //important!!!
+	if(start == end)
+		rf[start] = r[start];
+	else {
+		int m =(start + end)/2;    //平分*r 表
+		MSort_recursive(r, rf2, start, m);   //递归地将r[s…m]归并为有序的rf2[s…m]
+		MSort_recursive(r, rf2, m +1, end);  //递归地将r[m+1…e]归并为有序的rf2[m+1…e]
+		Merge(rf2, rf, start, m, end);        //将rf2[s…m]和rf2[m+1…e]归并到p1[s…e]
+	}
+}
+
+template <typename T>
+void MergeSort_recursive(T *r, T *rf, int n)
+{
+	MSort_recursive(r, rf, 0, n -1);   
+}
+
+``
 ---
 #### 1.8 基数排序
 

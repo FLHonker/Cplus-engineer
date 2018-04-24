@@ -274,19 +274,18 @@ void QuickSort_improve(int arr[], int n, int k)
 /**************************************************************
  *
  * 归并排序（Merge Sort）
- * 时间复杂度：O(n) = 
+ * 时间复杂度：O(n) = nlogn
  * 稳定排序
  **************************************************************/
  //二路归并算法
  //将r[i…m]和r[m +1 …n]归并到辅助数组rf[i…n] 
- template <typename T>
+template <typename T>
 void Merge(T *r, T *rf, int i, int m, int n)
 {
-	int j = m+1, k = i;
+	int j, k;
 	for (j = m+1, k=i; i <= m && j <= n; ++k)
 	{
-		if(r[i] > r[j])
-			rf[k] = r[i++];
+		if(r[i] < r[j]) rf[k] = r[i++];
 		else rf[k] = r[j++];
 	}
 	while(i <= m)  rf[k++] = r[i++];
@@ -305,8 +304,8 @@ void MergeSort_iteration(T *r, T *rf, int n)
 		len = len << 1;   //x2
 		//对等长的两个子表合并
 		int i = 0;
-		for( ; len + i < n; i += len)    
-			Merge(q, rf, i, i +s -1, i +len -1);   //子表不包含末尾项，长度为s -i
+		for( ; i + len < n; i += len)    
+			Merge(q, rf, i, i +s -1, i +len -1); 
 		//对不等长的两个子表合并  
 		if(i + s < n)
 			Merge(q, rf, i, i +s -1, n -1);
@@ -318,7 +317,7 @@ void MergeSort_iteration(T *r, T *rf, int n)
 template <typename T>
 void MSort_recursive(T *r, T *rf, int start, int end)
 {
-	T *rf2;
+	T *rf2 = new T[end - start +1];   //important!!!
 	if(start == end)
 		rf[start] = r[start];
 	else {
@@ -328,11 +327,20 @@ void MSort_recursive(T *r, T *rf, int start, int end)
 		Merge(rf2, rf, start, m, end);        //将rf2[s…m]和rf2[m+1…e]归并到p1[s…e]
 	}
 }
-
+//main-Merge
+template <typename T>
 void MergeSort_recursive(T *r, T *rf, int n)
 {
 	MSort_recursive(r, rf, 0, n -1);   
 }
+
+/**************************************************************
+ *
+ * 基数排序/桶排序（Radix Sort）
+ * 时间复杂度：O(n) = 
+ * 稳定排序
+ **************************************************************/
+
 
 /**
  * 输出数组元素
@@ -353,31 +361,31 @@ int main()
 	ShellSort(b, 13);
 	printArray(b, 13);
    	int c[]={4,54,6,0,2,2,35,41,20,1,7};
-    sSelectionSort(c, 11);
+      sSelectionSort(c, 11);
 	printArray(c, 11);
-    int d[]={4,54,6,0,2,2,35,41,20,1,7};
-    Select2Sort(d, 11);
-    printArray(d, 11);
+    	int d[]={4,54,6,0,2,2,35,41,20,1,7};
+    	Select2Sort(d, 11);
+    	printArray(d, 11);
 	int e[]={4,54,6,0,2,2,35,41,20,1,7};
 	HeapSort(e, 11);
 	printArray(e, 11);
-    int f[]={95,5,4,6,23,0,27,12,3,54,5};
-    BubbleSort(f, 11);
-    printArray(f, 11);
-    int g[]={58,6,2,54,51,0,2,32,5,1,5,7};
-    QuickSort(g, 0, 11);
-    printArray(g, 12);
-    int h[] = {21,4,5,0,21,7,84,56,32,1,11,47};
-    QuickSort_improve(h, 12, 4);
+    	int f[]={95,5,4,6,23,0,27,12,3,54,5};
+    	BubbleSort(f, 11);
+    	printArray(f, 11);
+   	int g[]={58,6,2,54,51,0,2,32,5,1,5,7};
+    	QuickSort(g, 0, 11);
+    	printArray(g, 12);
+    	int h[] = {21,4,5,0,21,7,84,56,32,1,11,47};
+    	QuickSort_improve(h, 12, 4);
 	printArray(h, 12);
-	int i[] = {21,4,5,0,21,7,84,56,32,1,11,47};
-	int i2[12];
-	MergeSort_iteration(i, i2, 0, 12);
-	printArray(i2, 12);
+	int i[] = {21,4,5,0,21,7,84,56,32,1,11,47,45,25,2,1};
+	int i2[16];
+	MergeSort_iteration(i, i2, 16);
+	printArray(i2, 16);
 	int j[]={58,6,2,54,51,0,2,32,5,1,5,7};
-	in j2[11];
-	MergeSort_recursive(j, j2, 11);
-    printArray(j2, 11);
+	int j2[12];
+	MergeSort_recursive(j, j2, 12);
+    	printArray(j2, 12);
 
 	return 0;
 }
