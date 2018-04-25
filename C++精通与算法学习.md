@@ -1,5 +1,10 @@
 # C++基础与算法学习
 
+> 目录
+> 
+[TOC]
+
+
 ## 1. 八大排序算法
 _参考：
 [1. CSDN八大经典排序算法](https://blog.csdn.net/youzhouliu/article/details/52311443)
@@ -464,10 +469,130 @@ void MergeSort_recursive(T *r, T *rf, int n)
 
 综上，得出结论: 选择排序、快速排序、希尔排序、堆排序不是稳定的排序算法，而冒泡排序、插入排序、归并排序和基数排序是稳定的排序算法，不稳定的排序算法有：快、希、选、堆。（记忆：找到工作就可以“快些选一堆”美女来玩了（并不能））！
 
-
+-----
 ## 2. 单例模式实现
 
+_参考:
+[C++的单例模式与线程目录安全单例模式（懒汉/饿汉）](https://www.cnblogs.com/qiaoconglovelife/p/5851163.html)_
+
+**(1) 教科书里的单例模式(懒汉式)**
+我们都很清楚一个简单的单例模式该怎样去实现：构造函数声明为private或protect防止被外部函数实例化，内部保存一个private static的类指针保存唯一的实例，实例的动作由一个public的类方法代劳，该方法也返回单例类唯一的实例。
+
+```c++
+class Singleton
+{
+protected:
+    Singleton(){}
+private:
+    static Singleton* p;
+public:
+    static Singleton* getInstance();
+};
+Singleton* Singleton::p = NULL;
+Singleton* Singleton::getInstance()
+{
+    if(p == NULL)
+        p = new Singleton();
+    return p;
+}
+```
+这是一个很棒的实现，简单易懂。但这是一个完美的实现吗？不！该方法是线程不安全的，考虑两个线程同时首次调用instance方法且同时检测到p是NULL值，则两个线程会同时构造一个实例给p，这是严重的错误！同时，这也不是单例的唯一实现！
+
+**(2)懒汉与饿汉**
+
+单例大约有两种实现方法：懒汉与饿汉。
+
+* 懒汉：故名思义，不到万不得已就不会去实例化类，也就是说在第一次用到类实例的时候才会去实例化，所以上边的经典方法被归为懒汉实现；
+* 饿汉：饿了肯定要饥不择食。所以在单例类定义的时候就进行实例化。
+
+**特点与选择:**
+* 由于要进行线程同步，所以在访问量比较大，或者可能访问的线程比较多时，采用饿汉实现，可以实现更好的性能,这是以空间换时间。
+* 在访问量较小时，采用懒汉实现,这是以时间换空间。
+
+**(3) 线程安全的懒汉实现**
+线程不安全怎么办? 最直观的方式当然是"加锁"!
+* 方法1：加锁的经典懒汉实现：
+```c++
+class Singleton
+{
+protected:
+    Singleton()
+    {
+        pthread_mutex_init(&mutex);
+    }
+private:
+    static pthread_mutex_t mutex;
+    static Singleton* p;
+public:
+    static Singleton* getInstance();
+};
+pthread_mutex_t Singleton::mutex;
+Singleton* Singleton::p = NULL;
+Singleton* Singleton::getInstance()
+{
+    if(p == NULL)
+    {
+        pthread_mutex_lock(&mutex);
+        if(p == NULL)
+           p = new Singleton();
+        pthread_mutex_unlock(&mutex);
+    }
+    return p;
+}
+```
+* 方法2：内部静态变量的懒汉实现:
+
+此方法也很容易实现，在instance函数里定义一个静态的实例，也可以保证拥有唯一实例，在返回时只需要返回其指针就可以了。推荐这种实现方法，真得非常简单。
+```c++
+class Singleton
+{
+protected:
+    Singleton()
+    {
+        pthread_mutex_init(&mutex);
+    }
+private:
+    static pthread_mutex_t mutex;
+public:
+    static Singleton* getInstance();
+};
+pthread_mutex_t Singleton::mutex;
+Singleton* Singleton::getInstance()
+{
+    pthread_mutex_lock(&mutex);
+    static Singleton obj;
+    pthread_mutex_unlock(&mutex);
+
+    return obj;
+}
+```
+**(4) 饿汉实现**
+饿汉式是线程安全的,在类创建的同时就已经创建好一个静态的对象供系统使用，以后不再改变，懒汉式如果在创建实例对象时不加上synchronized则会导致对对象的访问不是线程安全的。
+> 线程安全的通俗解释:不管多个线程是怎样的执行顺序和优先级,或是wait,sleep,join等控制方式，如果一个类在多线程访问下运转一切正常，并且访问类不需要进行额外的同步处理或者协调，那么我们就认为它是线程安全的。线程安全的类应当封装了所有必要的同步操作，调用者无需额外的同步。还有一点：无状态的类永远是线程安全的。
+
+在饿汉式的单例类中，其实有两个状态，单例未初始化和单例已经初始化。假设单例还未初始化，有两个线程同时调用GetInstance方法，这时执行 m_pInstance == NULL 肯定为真，然后两个线程都初始化一个单例，最后得到的指针并不是指向同一个地方，不满足单例类的定义了，所以饿汉式的写法会出现线程安全的问题！在多线程环境下，要对其进行修改。
+
+```c++
+class Singleton
+{
+protected:
+    Singleton(){}
+private:
+    static Singleton* p;
+public:
+    static Singleton* getInstance();
+};
+Singleton* Singleton::p = new Singleton();
+Singleton* Singleton::getInstance()
+{
+    return p;
+}
+```
+so easy!
+
+--------
 ## 3. 拷贝构造函数
+
 <em>**为什么复制构造函数的参数需要加const和引用?**</em>
 3.1 首先跑一个小程序，看下调用关系。
 ```
