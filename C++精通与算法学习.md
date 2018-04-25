@@ -360,25 +360,22 @@ void Merge(T *r, T *rf, int i, int m, int n)
 	while(j <= n)  rf[k++] = r[j++];
 }
 
-// 1. 归并排序的迭代算法
+/ 1. 归并排序的迭代算法
+//很多大神对于此算法写的并不理想,容易搞不清步长step和便偏移offset,
+//再有就是容易忘记最后2个不等长子表的归并.
 template <typename T>
 void MergeSort_iteration(T *r, T *rf, int n)
 {
-	int len = 1;
-	T *q = r;
-	while(len < n)
+	T *pr = r, *prf = rf;
+	int step, offset;
+	for(step = 1; step < n; step <<= 1)
 	{
-		int s = len;
-		len = len << 1;   //x2
-		//对等长的两个子表合并
-		int i = 0;
-		for( ; len + i < n; i += len)    
-			Merge(q, rf, i, i +s -1, i +len -1); 
-		//对不等长的两个子表合并  
-		if(i + s < n)
-			Merge(q, rf, i, i +s -1, n -1);
-		swap(q, rf);   //交换q,rf，以保证下一趟归并时仍然从q归并到rf。
+		offset = step *2;
+		for(int i = 0; i <= n; i += offset)
+			Merge(pr, prf, i, min(i+step-1, n-1), min(i+offset-1, n-1));
+		swap(pr, prf);   //交换pr,rf，以保证下一趟归并时仍然从r归并到rf
 	}
+	Merge(r, rf, 0, offset-1, n-1);   //对最后剩余的两个不等长子表归并,ok!
 }
 
 // 2. 归并排序的递归算法

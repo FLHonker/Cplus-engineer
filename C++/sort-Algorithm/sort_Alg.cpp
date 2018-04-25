@@ -293,16 +293,21 @@ void Merge(T *r, T *rf, int i, int m, int n)
 }
 
 // 1. 归并排序的迭代算法
+//很多大神对于此算法写的并不理想,容易搞不清步长step和便偏移offset,
+//再有就是容易忘记最后2个不等长子表的归并.
 template <typename T>
 void MergeSort_iteration(T *r, T *rf, int n)
 {
-	for(int step = 1; step <= n; step <<= 1)
+	T *pr = r, *prf = rf;
+	int step, offset;
+	for(step = 1; step < n; step <<= 1)
 	{
-		int offset = step *2;
-		for(int i = 0; i < n; i += offset)
-			Merge(r, rf, i, min(i+step, n-1), min(i+offset-1, n-1));
-		swap(r, rf);   //交换q,rf，以保证下一趟归并时仍然从q归并到rf
+		offset = step *2;
+		for(int i = 0; i <= n; i += offset)
+			Merge(pr, prf, i, min(i+step-1, n-1), min(i+offset-1, n-1));
+		swap(pr, prf);   //交换pr,rf，以保证下一趟归并时仍然从r归并到rf
 	}
+	Merge(r, rf, 0, offset-1, n-1);   //对最后剩余的两个不等长子表归并,ok!
 }
 
 // 2. 归并排序的递归算法
@@ -397,8 +402,8 @@ int main()
 	printArray(h, 12);
 	int i[] = {21,4,5,0,21,7,84,56,32,1,11,47,45,25,2,1};
 	int i2[16];
-	//MergeSort_iteration(i, i2, 16);
-	//printArray(i2, 16);
+	MergeSort_iteration(i, i2, 16);
+	printArray(i2, 16);
 	int j[]={58,6,2,54,51,0,2,32,5,1,5,7};
 	int j2[12];
 	MergeSort_recursive(j, j2, 12);
