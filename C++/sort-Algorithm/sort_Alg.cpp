@@ -256,19 +256,19 @@ void qSort_improve(int arr[], int low, int high, int k)
 }
 void QuickSort_improve(int arr[], int n, int k)
 {
-    qSort_improve(arr, 0, n, k);
+    	qSort_improve(arr, 0, n, k);
 
-    //再用插入排序对基本有序序列排序
-    for(int i =0; i < n; ++i)
-    {
-        int temp = arr[i];
-        int j = i - 1;
-        for( ;j >= 0 && temp < arr[j]; --j)
-        {
-            swap(arr[j], arr[j+1]);
-        }
-        arr[j+1] = temp;
-    }
+    	//再用插入排序对基本有序序列排序
+    	for(int i =0; i < n; ++i)
+    	{
+        	int temp = arr[i];
+        	int j = i - 1;
+        	for( ;j >= 0 && temp < arr[j]; --j)
+        	{
+            	swap(arr[j], arr[j+1]);
+        	}
+        	arr[j+1] = temp;
+    	}
 }
 
 /**************************************************************
@@ -296,20 +296,12 @@ void Merge(T *r, T *rf, int i, int m, int n)
 template <typename T>
 void MergeSort_iteration(T *r, T *rf, int n)
 {
-	int len = 1;
-	T *q = r;
-	while(len < n)
+	for(int step = 1; step <= n; step <<= 1)
 	{
-		int s = len;
-		len = len << 1;   //x2
-		//对等长的两个子表合并
-		int i = 0;
-		for( ; i + len < n; i += len)    
-			Merge(q, rf, i, i +s -1, i +len -1); 
-		//对不等长的两个子表合并  
-		if(i + s < n)
-			Merge(q, rf, i, i +s -1, n -1);
-		swap(q, rf);   //交换q,rf，以保证下一趟归并时仍然从q归并到rf。
+		int offset = step *2;
+		for(int i = 0; i < n; i += offset)
+			Merge(r, rf, i, min(i+step, n-1), min(i+offset-1, n-1));
+		swap(r, rf);   //交换q,rf，以保证下一趟归并时仍然从q归并到rf
 	}
 }
 
@@ -337,10 +329,35 @@ void MergeSort_recursive(T *r, T *rf, int n)
 /**************************************************************
  *
  * 基数排序/桶排序（Radix Sort）
- * 时间复杂度：O(n) = 
+ * 时间复杂度：O(n) = n
+ * 基于LSD方法的链式基数排序的基本思想
  * 稳定排序
  **************************************************************/
-
+/*
+void RadixSort(Node L[],length,maxradix)  
+{  
+    int m,n,k,lsp;  
+    k=1;m=1;  
+    int temp[10][length-1];  
+    Empty(temp); //清空临时空间  
+    while(k<maxradix) //遍历所有关键字  
+    {  
+        for(int i=0;i<length;i++) //分配过程  
+        {  
+            if(L[i]<m)  
+                Temp[0][n]=L[i];  
+            else  
+                Lsp=(L[i]/m)%10; //确定关键字  
+            Temp[lsp][n]=L[i];  
+            n++;  
+        }  
+        CollectElement(L,Temp); //收集  
+        n=0;  
+        m=m*10;  
+        k++;  
+    }  
+}  
+*/
 
 /**
  * 输出数组元素
@@ -355,37 +372,37 @@ void printArray(int arr[], int n)
 int main()
 {
 	int a[] = {7,4,5,2,0,6,5,42,32,1,1,23};
-	InsertSort(a, 12);
+    InsertSort(a, 12);
 	printArray(a, 12);
 	int b[] = {5,3,95,0,12,4,5,7,66,20,3,3,45};
 	ShellSort(b, 13);
 	printArray(b, 13);
    	int c[]={4,54,6,0,2,2,35,41,20,1,7};
-      sSelectionSort(c, 11);
+    sSelectionSort(c, 11);
 	printArray(c, 11);
-    	int d[]={4,54,6,0,2,2,35,41,20,1,7};
-    	Select2Sort(d, 11);
-    	printArray(d, 11);
+    int d[]={4,54,6,0,2,2,35,41,20,1,7};
+    Select2Sort(d, 11);
+    printArray(d, 11);
 	int e[]={4,54,6,0,2,2,35,41,20,1,7};
 	HeapSort(e, 11);
 	printArray(e, 11);
-    	int f[]={95,5,4,6,23,0,27,12,3,54,5};
-    	BubbleSort(f, 11);
-    	printArray(f, 11);
+    int f[]={95,5,4,6,23,0,27,12,3,54,5};
+    BubbleSort(f, 11);
+    printArray(f, 11);
    	int g[]={58,6,2,54,51,0,2,32,5,1,5,7};
-    	QuickSort(g, 0, 11);
-    	printArray(g, 12);
-    	int h[] = {21,4,5,0,21,7,84,56,32,1,11,47};
-    	QuickSort_improve(h, 12, 4);
+    QuickSort(g, 0, 11);
+    printArray(g, 12);
+    int h[] = {21,4,5,0,21,7,84,56,32,1,11,47};
+    QuickSort_improve(h, 12, 4);
 	printArray(h, 12);
 	int i[] = {21,4,5,0,21,7,84,56,32,1,11,47,45,25,2,1};
 	int i2[16];
-	MergeSort_iteration(i, i2, 16);
-	printArray(i2, 16);
+	//MergeSort_iteration(i, i2, 16);
+	//printArray(i2, 16);
 	int j[]={58,6,2,54,51,0,2,32,5,1,5,7};
 	int j2[12];
 	MergeSort_recursive(j, j2, 12);
-    	printArray(j2, 12);
+    printArray(j2, 12);
 
 	return 0;
 }
