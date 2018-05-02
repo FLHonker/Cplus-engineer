@@ -1325,6 +1325,94 @@ void CMyView::OnPaint( CDC* pDC )
 -----
 ## 9. 字符串朴素匹配算法和KMP
 
+KMP算法的核心思想是利用已经得到的部分匹配信息来进行后面的匹配过程。KMP算法分为两步，第一步是计算next数组，第二步是根据next数组通过较节省的方式回溯来比较两个字符串。
+
+#### 9.1 求解next数组
+
+**定义：**
+（1）`next[0] = -1`   意义：任何串的第一个字符的模式值规定为 -1。
+（2）`next[j] = -1`   意义：模式串T中下标为j的字符，如果与首字符相同，且j的前面的1—k个字符与开头的1—k个字符不等（或者相等但T[k] == T[j]）（1 ≤ k < j）。如：T = ”abCabCad” 则 next[6] = -1，因T[3] = T[6]。
+（3）`next[j] = k`   意义： 模式串T中下标为j的字符，如果j的前面k个字符与开头的k个字符相等，且T[j] != T[k] （1 ≤ k < j）。即T[0]T[1]T[2]...T[k-1] == T[j-k]T[j-k+1]T[j-k+2]…T[j-1] 且T[j] != T[k].（1 ≤ k < j）;
+（4）`next[j] = 0`   意义： 除（1）（2）（3）的其他情况。
+
+**next数组的意义：**
+设在字符串S中查找模式串T，若S[m]!=T[n],那么，取T[n]的模式函数值next[n],
+
+1. next[n] = -1 表示S[m]和T[0]间接比较过了，不相等，下一次比较 S[m+1] 和T[0]
+
+2. next[n] = 0 表示比较过程中产生了不相等，下一次比较 S[m] 和T[0]。
+
+3. next[n] = k >0 但k<n, 表示,S[m]的前k个字符与T中的开始k个字符已经间接比较相等了，下一次比较S[m]和T[k]相等吗？
+
+4. 其他值，不可能。
+
+#### 9.2 KMP算法
+
+```
+1. 在串S和串T中分别设置比较的起始下标i和j;
+2. 重复下述操作，直到S或T的所有字符均比较完毕;
+    2.1 如果S[i]等于T[j]，继续比较S和T的下一对字符;
+    2.2 否则将下标j回溯到next[j]的位置，即j = next[j];
+    2.3 如果j等于-1，则将下标i和j分别加1，准备下一趟比较;
+3. 如果T中所有字符均比较完毕，则返回匹配的i-j;
+   否则返回-1。
+```
+C\++实现：
+```c++
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> getNext(string T)
+{
+    vector<int> next(T.size(),0);
+    next[0] = -1;
+    //next[1] = 0;
+    int j = 0, k = -1;
+    for(int j = 2; j < T.size(); ++j)
+    {
+        while(k > 0 && T[j -1] != T[k])
+            k = next[k];
+        if(T[j -1] == T[k])
+            k++;
+        next[j] = k;
+    }
+    /* 或者这样写：
+    while(j < T.size())
+    {
+        if(k == -1 || T[j] == T[k])
+        {//串后缀与前缀没有相等的子串或者此时j下标下的字符与k下的字符相等。
+            k++; j++;
+            next[j] = k;
+        }else
+            k = next[k];   //缩小字串范围继续比较
+    } */
+    return next;
+}
+
+int KMP(string S, string T)
+{
+    vector<int> next = getNext(T);  //计算得到next数组
+    int i = 0, j = 0;
+    while(S[i] != '\0' && T[j] != '\0')
+    {
+        if(S[i] == T[j])
+        {
+            i++; j++;
+        } else{
+            j = next[j];   
+        }
+        if(j == -1)
+        {
+            i++; j++;
+        }
+    }
+    if(T[j] == '\0')
+        return i -j;
+    else
+        return -1;
+}
+```
 
 ## 10. C++中虚继承的作用及底层实现原理
 
