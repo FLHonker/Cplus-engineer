@@ -21,11 +21,9 @@ centos7的默认安装已经把磁盘管理成LVM的卷形式，可以比较容�
 作者采用的时直接使用原来500GB硬盘上未分配的40GB空间进行扩展(当时装双系统预留的空间,本打算还还给windows的,结果windows不兼容xfs格式,就分给CentOS使用吧)。
 
 然后先看看自己的容量:
-![df -h][1]
-[1]:./images/fdisk-img/df-h.png
+![df -h](./images/fdisk-img/df-h.png)
 
-![fdsik -l][2]
-[2]:./images/fdisk-img/fdisk-l.png
+![fdsik -l](./images/fdisk-img/fdisk-l.png)
 
 ### 2. fdisk分区
 
@@ -40,8 +38,7 @@ centos7的默认安装已经把磁盘管理成LVM的卷形式，可以比较容�
    e   extended
    如果就扩展一次的话，用p选项，如果以后可能多次扩容，选e，我们这里为了简单用了p，建立了一个主分区，然后可以用p命令查看结果。作者的硬盘已经建立了4个主分区，此处就默认只能新建逻辑分区了。
 
-![fdsik][3]
-[3]:./images/fdisk-img/new-disk.png
+![fdsik](./images/fdisk-img/new-disk.png)
 
 创建分区后，用`w`命令保存。
 
@@ -51,8 +48,7 @@ centos7的默认安装已经把磁盘管理成LVM的卷形式，可以比较容�
 
 > mkfs.sfx /dev/sda11
 
-![mkfs.xfs][4]
-[4]:./images/fdisk-img/mkfs-xfs.png
+![mkfs.xfs](./images/fdisk-img/mkfs-xfs.png)
 
 ### 4. pvcreate建物理卷
 
@@ -62,14 +58,12 @@ centos7的默认安装已经把磁盘管理成LVM的卷形式，可以比较容�
 查看物理卷状态：
 > vgs
 
-![pvcrate][5]
-[5]:./images/fdisk-img/pvcreate.png
+![pvcrate](./images/fdisk-img/pvcreate.png)
 
 显示一下看看物理卷：
 > vgdisplay
 
-![vgdisplay][6]
-[6]:./images/fdisk-img/vgdisplay.png
+![vgdisplay](./images/fdisk-img/vgdisplay.png)
 
 ### 5. 扩容逻辑卷
 
@@ -78,16 +72,13 @@ centos7的默认安装已经把磁盘管理成LVM的卷形式，可以比较容�
 > vgextend centos /dev/sda11
 
 再查看一下：
-![vdextend][7]
-[7]:./images/fdisk-img/vgextend.png
+![vdextend](./images/fdisk-img/vgextend.png)
 
 发现centos物理卷组已经从67.75GB扩展到77.75G。
 
 查看一下逻辑区的情况：
-![lvdisplay][8]
-![lvdisplay][9]
-[8]:./images/fdisk-img/lvdisplay.png
-[9]:./images/fdisk-img/lvdisplay-2.png
+![lvdisplay](./images/fdisk-img/lvdisplay.png)
+![lvdisplay](./images/fdisk-img/lvdisplay-2.png)
 
 
 发现有3个逻辑卷组：root、home和swap，作者想要对home进行扩展。
@@ -100,8 +91,7 @@ centos7的默认安装已经把磁盘管理成LVM的卷形式，可以比较容�
 
 再查看一下逻辑区的情况：
 
-![lvdisplay-2][10]
-[10]:./images/fdisk-img/lvdisplay-3.png
+![lvdisplay-2](./images/fdisk-img/lvdisplay-3.png)
 LV Size已经从30.00GB扩展到40.00GB。
 
 下面就是扩展文件系统的尺寸，因为这时候用`df -h`是看不到变大的。
@@ -113,8 +103,7 @@ LV Size已经从30.00GB扩展到40.00GB。
 
 > xfs_growfs  /dev/centos/home
 
-![xfs_growfs][11]
-[11]:./images/fdisk-img/xfs_growfs.png
+![xfs_growfs](./images/fdisk-img/xfs_growfs.png)
 显示的最后一行:
 
 > data blocks changed from xxxxxx to xxxxxx
@@ -125,7 +114,6 @@ LV Size已经从30.00GB扩展到40.00GB。
 ### 5. 磁盘工具查看扩容
 
 使用CentOS7的磁盘管理工具可视化查看分区情况，可以看到11GB的分区11（之前使用fdisk创建的是10G，是按1GB=1024KB，这个磁盘工具是按1GB=1000KB，所以会是11GB,计算法嗯是的差别）。而且侧边栏显示有一个43GB的块设备，之前是和centos-root一样，都是32GB的，现在扩容了。
-![diskplay][12]
-[12]:./images/fdisk-img/diskplay.png
+![diskplay](./images/fdisk-img/diskplay.png)
 
 **至此，一个完整的Linux分区扩容方案交到你的手上，如果不了解Linux的物理卷、逻辑卷、卷组的概念，请google一下。全程所有操作均在root权限下进行，全程高能！请谨慎操作！本教程有可能针对不同机器、不同Linux发行版本有差异，欢迎补充改正，如根据本教程操作个人计算机进行分区前误请做好数据备份，出现任何严重失误均由操作着个人承担。**
