@@ -21,6 +21,7 @@ centos7的默认安装已经把磁盘管理成LVM的卷形式，可以比较容�
 作者采用的时直接使用原来500GB硬盘上未分配的40GB空间进行扩展(当时装双系统预留的空间,本打算还还给windows的,结果windows不兼容xfs格式,就分给CentOS使用吧)。
 
 然后先看看自己的容量:
+
 ![df -h](./images/fdisk-img/df-h.png)
 
 ![fdsik -l](./images/fdisk-img/fdisk-l.png)
@@ -72,11 +73,13 @@ centos7的默认安装已经把磁盘管理成LVM的卷形式，可以比较容�
 > vgextend centos /dev/sda11
 
 再查看一下：
+
 ![vdextend](./images/fdisk-img/vgextend.png)
 
 发现centos物理卷组已经从67.75GB扩展到77.75G。
 
 查看一下逻辑区的情况：
+
 ![lvdisplay](./images/fdisk-img/lvdisplay.png)
 ![lvdisplay](./images/fdisk-img/lvdisplay-2.png)
 
