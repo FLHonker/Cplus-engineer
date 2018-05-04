@@ -155,64 +155,64 @@ void Select2Sort(int arr[], int n)
  **************************************************************/
 /**
  * 已知H[s…m]除了H[s] 外均满足堆的定义 
- * 调整H[s],使其成为大顶堆.即将对第s个结点为根的子树筛选,  
+ * 调整H[s],使其成为大顶堆.即将对第s个结点为根的子树筛选,
  * 
  * @param H是待调整的堆数组 
- * @param s是待调整的数组元素的位置 
- * @param n是数组的长度 
+ * @param s是待调整的数组元素的位置
+ * @param n是数组的长度
  * 
- */  
-void HeapAdjust(int H[],int s, int n)  
-{  
-    int temp  = H[s];  
-    int child = 2*s+1; //左孩子结点的位置。 
-    while (child < n) 
-    {  
-        if(child+1 < n && H[child] < H[child+1])  //如果左子结点小于右子结点，child指向右子结点 
+ */
+void HeapAdjust(int H[],int s, int n)
+{
+    int temp  = H[s];
+    int child = 2*s+1; //左孩子结点的位置。
+    while (child < n)
+    {
+        if(child+1 < n && H[child] < H[child+1])  //如果左子结点小于右子结点，child指向右子结点
             ++child;
         if(H[s]<H[child]) 
-        {   // 如果较大的子结点大于父结点  
-            H[s] = H[child]; // 那么把较大的子结点往上移动，替换它的父结点  
-            s = child;       // 重新设置s ,即待调整的下一个结点的位置  
-            child = 2*s+1;  
-        }  else {            // 如果当前待调整结点大于它的左右孩子，则不需要调整，直接退出  
-             break;  
-        }  
-        H[s] = temp;         // 当前待调整的结点放到比其大的孩子结点位置上  
-    }  
-}  
+        {   // 如果较大的子结点大于父结点
+            H[s] = H[child]; // 那么把较大的子结点往上移动，替换它的父结点
+            s = child;       // 重新设置s ,即待调整的下一个结点的位置
+            child = 2*s+1;
+        }  else {            // 如果当前待调整结点大于它的左右孩子，则不需要调整，直接退出
+             break;
+        }
+        H[s] = temp;         // 当前待调整的结点放到比其大的孩子结点位置上
+    }
+}
 
 /*
- * 初始堆进行调整 
- * 将H[0..n-1]建成堆 
- * 调整完之后第一个元素是序列的最小的元素 
- */  
-void BuildingHeap(int H[], int n)  
-{   
-    //最后一个有孩子的节点的位置 i= (n -1) / 2  
-    for (int i = (n -1) / 2 ; i >= 0; --i)  
-        HeapAdjust(H,i,n);  
-}  
-/* 
- * 堆排序算法 
- */  
-void HeapSort(int H[], int n)  
-{  
-    //初始堆  
-    BuildingHeap(H, n);  
-    //从最后一个元素开始对序列进行调整  
-    for (int i = n - 1; i > 0; --i)  
-    {  
-        //交换堆顶元素H[0]和堆中最后一个元素  
-        //int temp = H[i]; H[i] = H[0]; H[0] = temp;  
+ * 初始堆进行调整
+ * 将H[0..n-1]建成堆
+ * 调整完之后第一个元素是序列的最小的元素
+ */
+void BuildingHeap(int H[], int n)
+{
+    //最后一个有孩子的节点的位置 i= (n -1) / 2
+    for (int i = (n -1) / 2 ; i >= 0; --i)
+        HeapAdjust(H,i,n);
+}
+/*
+ * 堆排序算法
+ */
+void HeapSort(int H[], int n)
+{
+    //初始堆
+    BuildingHeap(H, n);
+    //从最后一个元素开始对序列进行调整
+    for (int i = n - 1; i > 0; --i)
+    {
+        //交换堆顶元素H[0]和堆中最后一个元素
+        //int temp = H[i]; H[i] = H[0]; H[0] = temp;
     	swap(H[i], H[0]);
-        //每次交换堆顶元素和堆中最后一个元素之后，都要对堆进行调整  
-        HeapAdjust(H,0,i);  
-  }  
+        //每次交换堆顶元素和堆中最后一个元素之后，都要对堆进行调整
+        HeapAdjust(H,0,i);
+  }
 }
 ```
 ---
-#### 1.5 冒泡排序 
+#### 1.5 冒泡排序
 
 这个不用多说，和选择排序很像，区别是每次找出相对大的数立即交换位置，直到冒泡到最后面，交换次数较多。
 
@@ -263,7 +263,7 @@ int partation(T arr[], int low, int high)
     T privotkey = arr[low];   //基准元素
     while(low < high)    //从表的两端交替向中间扫描
     {
-        while(low < high && arr[high] >= privotkey) 
+        while(low < high && arr[high] >= privotkey)
            --high;
         swap(arr[low], arr[high]);
         while(low < high && arr[low] <= privotkey)
@@ -401,7 +401,7 @@ void MSort_recursive(T *r, T *rf, int start, int end)
 template <typename T>
 void MergeSort_recursive(T *r, T *rf, int n)
 {
-	MSort_recursive(r, rf, 0, n -1);   
+	MSort_recursive(r, rf, 0, n -1);
 }
 
 ```
@@ -856,7 +856,7 @@ c是对象，c后面的箭头操作符使用的是重载箭头操作符，即调
 >(1)平台原因：不是所有的硬件平台都能访问任意内存地址上的任意数据的；某些硬件平台只能在某些地址取得特定类型的数据，否则会抛出硬件异常。
 >(2)性能原因：经过内存对齐后，减少了CPU访问内存的总线周期数，速度大大提升。
 * 内存对齐规则：
->(1)第一个数据成员放在offset为0的位置，之后的每个数据成员的内存对齐按照#pradma pack(n)指定的值和成员自身长度值中较小的那个进行。【偏移量为其自身大小的整数倍。size%offset==0】
+>(1)第一个数据成员放在offset为0的位置，之后的每个数据成员的内存对齐按照#pradma pack(n)指定的值和成员自身长度值中较小的那个进行。【偏移量为其自身大小的整数倍。offset%size==0】
 >(2)各数据成员对齐后，类（结构体或联合）也进行对齐，偏移量为最大字段长度的整数倍。
 * 关于#pragma pack(n)
 > 作为一个预编译命令来设置内存对齐的粒度。n的缺省值是按照编译器自身设置，一般为8，合法数值分别是1,2,4,8,16；若n为其他值是无效的。
@@ -1434,7 +1434,537 @@ int KMP(string S, string T)
 
 
 -----
-## 12. C++多线程与同步
+## 12. C++多线程与同步(Linux)
 
+### 12.1 利用系统API实现多线程（POSIX）
+
+C\++11以前不包含多线程应用程序的任何内置支持。相反，它完全依赖于操作系统来提供此功能。
+
+本教程假设您使用的是 Linux 操作系统，我们要使用 POSIX 编写多线程 C\++ 程序。`POSIX Threads` 或 `Pthreads` 提供的 API 可在多种类 Unix POSIX 系统上可用，比如 FreeBSD、NetBSD、GNU/Linux、Mac OS X 和 Solaris。
+
+#### (1) 创建线程
+下面的程序，我们可以用它来创建一个 POSIX 线程：
+```c++
+#include <pthread.h>
+pthread_create (thread, attr, start_routine, arg);
+```
+在这里，`pthread_create` 创建一个新的线程，并让它可执行。下面是关于参数的说明：
+
+* **参数说明**
+
+|  参数	  |    说明     |
+|:--------:|:------------|
+|  thread  |  指向线程标识符指针。|
+|   attr   |一个不透明的属性对象，可以被用来设置线程属性。您可以指定线程属性对象，也可以使用默认值 NULL。|
+| start_routine | 线程运行函数起始地址，一旦线程被创建就会执行。  |
+|  arg	 | 运行函数的参数。它必须通过把引用作为指针强制转换为 void 类型进行传递。如果没有传递参数，则使用 NULL。 |
+
+创建线程成功时，函数返回 0，若返回值不为 0 则说明创建线程失败。
+
+#### (2) 终止线程
+
+使用下面的程序，我们可以用它来终止一个 POSIX 线程：
+```c++
+#include <pthread.h>
+pthread_exit(status);
+```
+在这里，`pthread_exit` 用于显式地退出一个线程。通常情况下，pthread_exit() 函数是在线程完成工作后无需继续存在时被调用。
+
+如果 main() 是在它所创建的线程之前结束，并通过 pthread_exit() 退出，那么其他线程将继续执行。否则，它们将在 main() 结束时自动被终止。
+
+[实例1]：
+
+以下简单的实例代码使用 pthread_create() 函数创建了 8 个线程，每个线程输出"Hello pthread！":
+```c++
+#include <iostream>
+#include <pthread.h>
+#define NUM_THREADS 8
+
+using namespace std;
+
+//线程运行函数，函数返回的是函数指针，便于后面作为参数
+void* say_hello(void* args)
+{
+    cout << "Hello pthread!" <<endl;
+}
+
+int main()
+{
+    pthread_t tids[NUM_THREADS];
+    for(int i=0; i < NUM_THREADS; ++i)
+    {
+        //参数：线程id、线程参数、调用的函数、传入函数的参数
+        int ret = pthread_create(&tids[i], NULL, say_hello, NULL);
+        if(ret != 0)
+            cout << "pthread_create error: error_code=" << ret <<endl;
+    }
+    //等待线程退出后，进程才结束：
+    pthread_exit(NULL);
+
+    return 0;
+}
+```
+使用 lpthread 库编译程序：
+> g++ pthread_test1.cpp -lpthread -o pthread_test1
+
+[实例2]：
+
+以下简单的实例代码使用 pthread_create() 函数创建了 8 个线程，并接收传入的参数。每个线程打印一个 "Hello pthread!" 消息，并输出接收的参数，然后调用 pthread_exit() 终止线程。为缓解多线程的资源争夺，采用sleep(1)使之睡眠1秒钟再开启新线程。
+```c++
+#include <iostream>
+#include <pthread.h>
+#include <unistd.h>
+#define NUM_THREADS 8
+
+using namespace std;
+
+//线程运行函数，函数返回的是函数指针，便于后面作为参数
+void* say_hello(void* args)
+{
+    int tid = *((int*)args);  //对传入的参数强制类型转换
+    cout << "Hello pthread! thread_ID: " << tid <<endl;
+    pthread_exit(NULL);
+}
+
+int main()
+{
+    pthread_t tids[NUM_THREADS];
+    for(int i=0; i < NUM_THREADS; ++i)
+    {
+        cout << "main():创建线程," << i <<endl;
+        //参数：线程id、线程参数、调用的函数、传入函数的参数
+        int ret = pthread_create(&tids[i], NULL, say_hello, (void*)&i);
+        sleep(1);   //sleep 1s
+        if(ret != 0)
+        {
+            cout << "pthread_create error: error_code=" << ret <<endl;
+            exit(-1);
+        }
+    }
+    //等待线程退出后，进程才结束：
+    pthread_exit(NULL);
+
+    return 0;
+}
+```
+[运行结果2]：
+
+![pthread_test2](./images/C-img/pthread_test2.png)
+
+#### (3) 向线程传递参数
+
+这个实例演示了如何通过结构传递多个参数。您可以在线程回调中传递任意的数据类型，因为它指向 void，如下面的实例所示：
+```c++
+#include <iostream>
+#include <pthread.h>
+#include <cstdlib>
+#include <unistd.h>
+#define NUM_THREADS 8
+
+using namespace std;
+
+typedef struct thread_data
+{
+	int thread_id;
+	char *message;
+}thread_data;
+
+//线程运行函数，函数返回的是函数指针，便于后面作为参数
+void* printMsg(void* args)
+{
+    thread_data *my_data = (thread_data*)args;;  //对传入的参数强制类型转换
+    cout << "thread_ID: " << my_data->thread_id << ", Message:" << my_data->message <<endl;
+    pthread_exit(NULL);
+}
+
+int main()
+{
+    pthread_t tids[NUM_THREADS];
+    thread_data mydatas[NUM_THREADS];
+    for(int i=0; i < NUM_THREADS; ++i)
+    {
+        cout << "main():创建线程," << i <<endl;
+        mydatas[i].thread_id = i;
+        mydatas[i].message = "Hello,pthread!";
+        //参数：线程id、线程参数、调用的函数、传入函数的参数
+        int ret = pthread_create(&tids[i], NULL, printMsg, (void*)&mydatas[i]);
+        sleep(1);   //sleep 1s
+        if(ret != 0)
+        {
+            cout << "pthread_create error: error_code=" << ret <<endl;
+            exit(-1);
+        }
+    }
+    //等待线程退出后，进程才结束：
+    pthread_exit(NULL);
+
+    return 0;
+}
+```
+[运行结果3]：
+
+![pthread_test3](./images/C-img/pthread_test3.png)
+
+#### (4) 连接和分离线程
+
+我们可以使用以下两个函数来连接或分离线程：
+
+> pthread_join (threadid, status);
+> pthread_detach (threadid);
+
+`pthread_join()`子程序阻碍调用程序，直到指定的threadid 线程终止为止。当创建一个线程时，它的某个属性会定义它是否是可连接的（joinable）或可分离的（detached）。只有创建时定义为可连接的线程才可以被连接。如果线程创建时被定义为可分离的，则它永远也不能被连接。
+这个实例演示了如何使用 pthread_join() 函数来等待线程的完成。
+```c++
+#include <iostream>
+#include <pthread.h>
+#include <cstdlib>
+#include <unistd.h>
+#define NUM_THREADS 8
+
+using namespace std;
+
+//线程运行函数，函数返回的是函数指针，便于后面作为参数
+void* say_hello(void* args)
+{
+    int tid = *((int*)args);  //对传入的参数强制类型转换
+    sleep(1);
+    cout << "Sleeping inthread..." <<endl;
+    cout << "Hello pthread! thread_ID: " << tid << "...exiting." <<endl;
+    pthread_exit(NULL);
+}
+
+int main()
+{
+    pthread_t tids[NUM_THREADS];
+    pthread_attr_t attr;
+    void *status;
+    //初始化并设置为可连接的(joinable)
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+    for(int i=0; i < NUM_THREADS; ++i)
+    {
+        cout << "main():创建线程," << i <<endl;
+        //参数：线程id、线程参数、调用的函数、传入函数的参数
+        int ret = pthread_create(&tids[i], NULL, say_hello, (void*)&i);
+        if(ret != 0)
+        {
+            cout << "pthread_create error: error_code=" << ret <<endl;
+            exit(-1);
+        }
+    }
+
+    pthread_attr_destroy(&attr);  //删除属性，并等待其他线程
+    for(int i=0; i < NUM_THREADS; ++i)
+    {
+    	int ret = pthread_join(tids[i], &status);
+    	if(ret)
+        {
+            cout << "Error:unable to join," << ret <<endl;
+            exit(-1);
+        }
+        cout << "Main: completed thread id :" << i;
+        cout << ", exiting with status:" << status << endl;
+    }
+    cout << "Main: program exiting." << endl;
+    //等待线程退出后，进程才结束：
+    pthread_exit(NULL);
+
+    return 0;
+}
+```
+[运行结果4]：
+
+![pthread_test4](./images/C-img/pthread_test4.png)
+
+#### (5) 互斥锁的实现
+
+互斥锁是实现线程同步的一种机制，只要在临界区前后对资源加锁就能阻塞其他进程的访问。
+[实例5]：
+```c++
+#include <iostream>
+#include <pthread.h>
+#include <cstdlib>
+#include <unistd.h>
+#define NUM_THREADS 8
+
+using namespace std;
+
+int sum = 0; //定义全局变量，让所有线程同时写，这样就需要锁机制
+pthread_mutex_t sum_mutex; //互斥锁
+
+//线程运行函数，函数返回的是函数指针，便于后面作为参数
+void* say_hello(void* args)
+{
+    int tid = *((int*)args);  //对传入的参数强制类型转换
+    cout << "Hello pthread! thread_ID: " << tid <<endl;
+    pthread_mutex_lock( &sum_mutex ); //先加锁，再修改sum的值，锁被占用就阻塞，直到拿到锁再修改sum
+    cout << "before sum is " << sum;
+    sum += tid; 
+    cout << ", after sum is " << sum << endl; 	
+    pthread_mutex_unlock( &sum_mutex ); //释放锁，供其他线程使用
+    pthread_exit(0);
+}
+
+int main()
+{
+    pthread_t tids[NUM_THREADS];
+    pthread_attr_t attr;  //线程属性结构体，创建线程时加入的参数
+    void *status;
+    //初始化并设置为可连接的(joinable)
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+    pthread_mutex_init( &sum_mutex, NULL ); //对锁进行初始化
+    for(int i=0; i < NUM_THREADS; ++i)
+    {
+        //参数：线程id、线程参数、调用的函数、传入函数的参数
+        int ret = pthread_create(&tids[i], NULL, say_hello, (void*)&i);
+        if(ret != 0)
+        {
+            cout << "pthread_create error: error_code=" << ret <<endl;
+            exit(-1);
+        }
+    }
+    
+    pthread_attr_destroy(&attr);  //删除属性，并等待其他线程
+    for(int i=0; i < NUM_THREADS; ++i)
+    {
+    	int ret = pthread_join(tids[i], &status);
+    	if(ret)
+        {
+            cout << "Error:unable to join," << ret <<endl;
+            exit(-1);
+        }
+        cout << "Main: completed thread id :" << i;
+        cout << ", exiting with status:" << status << endl;
+    }
+    cout << "Main: program exiting." << endl;
+    cout << "finally sum is " << sum << endl;
+    pthread_mutex_destroy( &sum_mutex ); //注销锁
+    //等待线程退出后，进程才结束：
+    pthread_exit(NULL);
+
+    return 0;
+}
+```
+[运行结果5]：
+
+![pthread_test5](./images/C-img/pthread_test5.png)
+
+可知，sum的访问和修改顺序是正常的，这就达到了多线程的目的了，但是线程的运行顺序是混乱的，混乱就是正常？
+
+#### (6) 信号量的实现
+
+信号量是线程同步的另一种实现机制，信号量的操作有`signal`和`wait`，本例子采用条件信号变量
+> pthread_cond_t tasks_cond;
+
+信号量的实现也要给予锁机制。
+```c++
+/*************************************************************************
+	> File Name: pthread_test6.cpp
+	> Author: Frank Liu
+	> Mail: frankliu624@gmail.com
+	> Created Time: 2018年05月04日 星期五 14时53分57秒
+ ************************************************************************/
+
+#include <iostream>
+#include <pthread.h>
+#include <stdio.h>
+#define BOUNDARY 5
+using namespace std;
+
+int tasks = 10;
+pthread_mutex_t tasks_mutex; //互斥锁
+pthread_cond_t tasks_cond; //条件信号变量，处理两个线程间的条件关系，当task>5，hello2处理，反之hello1处理，直到task减为0
+
+void* say_hello2(void* args)
+{
+	pthread_t pid = pthread_self(); //获取当前线程id
+	cout << "[" << pid << "] hello in thread " << *((int*)args) << endl;
+	bool is_signaled = false; //sign
+	while(1)
+	{
+		pthread_mutex_lock( &tasks_mutex ); //加锁
+		if( tasks > BOUNDARY )
+		{
+			cout << "[" << pid << "] take task: " << tasks << " in thread " << *((int*)args) << endl;
+			--tasks; //modify
+		}
+		else if( !is_signaled )
+		{
+			cout << "[" << pid << "] pthread_cond_signal in thread " << *((int*)args) << endl;
+			pthread_cond_signal( &tasks_cond ); //signal:向hello1发送信号，表明已经>5
+			is_signaled = true; //表明信号已发送，退出此线程
+		}        
+		pthread_mutex_unlock( &tasks_mutex ); //解锁
+		if( tasks == 0 )
+			break;
+	}
+}
+
+void* say_hello1(void* args)
+{
+	pthread_t pid = pthread_self(); //获取当前线程id
+	cout << "[" << pid << "] hello in thread " << *((int*)args) << endl;
+	while(1)
+	{
+		pthread_mutex_lock( &tasks_mutex ); //加锁
+		if( tasks > BOUNDARY )
+		{
+			cout << "[" << pid << "] pthread_cond_signal in thread " << *((int*)args) << endl;
+			pthread_cond_wait( &tasks_cond, &tasks_mutex ); //wait:等待信号量生效，接收到信号，向hello2发出信号，跳出wait,执行后续
+		}else{
+			cout << "[" << pid << "] take task: " << tasks << " in thread " << *((int*)args) << endl;
+			--tasks;
+		}
+		pthread_mutex_unlock( &tasks_mutex ); //解锁
+		if( tasks == 0 )
+			break;
+	}
+}
+
+int main()
+{
+	pthread_attr_t attr; //线程属性结构体，创建线程时加入的参数
+	pthread_attr_init( &attr ); //初始化
+	pthread_attr_setdetachstate( &attr, PTHREAD_CREATE_JOINABLE ); //是设置你想要指定线程属性参数，这个参数表明这个线程是可以join连接的，join功能表示主程序可以等线程结束后再去做某事，实现了主程序和线程同步功能
+	pthread_cond_init( &tasks_cond, NULL ); //初始化条件信号量
+	pthread_mutex_init( &tasks_mutex, NULL ); //初始化互斥量
+	pthread_t tid1, tid2; //保存两个线程id
+	int index1 = 1, index2 = 2;
+	int ret = pthread_create( &tid1, &attr, say_hello1, (void*)&index1);
+	if( ret != 0 )
+	{
+		cout << "pthread_create error:error_code=" << ret << endl;
+	}
+	ret = pthread_create( &tid2, &attr, say_hello2, (void*)&index2);
+	if( ret != 0 )
+	{
+		cout << "pthread_create error:error_code=" << ret << endl;
+	}
+	pthread_join( tid1, NULL ); //连接两个线程
+	pthread_join( tid2, NULL );
+	pthread_attr_destroy( &attr ); //释放内存
+	pthread_mutex_destroy( &tasks_mutex ); //注销锁
+	pthread_cond_destroy( &tasks_cond ); //正常退出
+
+	return 0;
+}
+```
+[运行结果6]：
+
+先在线程2中执行say_hello2，再跳转到线程1中执行say_hello1，直到tasks减到0为止。
+
+![pthread_test6](./images/C-img/pthread_test6.png)
+
+### 12.2 C\++11中的多线程技术
+
+C\++11 新标准中引入了四个头文件来支持多线程编程，他们分别是 <atomic> ,<thread>,<mutex>,<condition_variable>和<future>。
+
+`<atomic>`：提供原子操作功能，该头文主要声明了两个类, std::atomic 和 std::atomic_flag，另外还声明了一套 C 风格的原子类型和与 C 兼容的原子操作的函数。
+
+`<thread>`：线程模型封装，该头文件主要声明了 std::thread 类，另外 std::this_thread 命名空间也在该头文件中。
+
+`<mutex>`：互斥量封装，该头文件主要声明了与互斥量(mutex)相关的类，包括 std::mutex 系列类，std::lock_guard, std::unique_lock, 以及其他的类型和函数。
+
+`<condition_variable>`：条件变量，该头文件主要声明了与条件变量相关的类，包括 std::condition_variable 和 std::condition_variable_any。
+
+`<future>`：实现了对指定数据提供者提供的数据进行异步访问的机制。该头文件主要声明了 std::promise, std::package_task 两个 Provider 类，以及 std::future 和 std::shared_future 两个 Future 类，另外还有一些与之相关的类型和函数，std::async() 函数就声明在此头文件中。
+
+##### 注意事项
+1. 若线程调用到的函数在一个类中，则必须将该函数声明为静态函数函数，因为静态成员函数属于静态全局区，线程可以共享这个区域，故可以各自调用。
+2. 代码中如果没有pthread_join主线程会很快结束从而使整个进程结束，从而使创建的线程没有机会开始执行就结束了。加入pthread_join后，主线程会一直等待直到等待的线程结束自己才结束，使创建的线程有机会执行。
+3. 线程创建时属性参数的设置pthread_attr_t及join功能的使用，线程的属性由结构体pthread_attr_t进行管理。
+
+### 12.3 C\++使用thread类多线程编程
+
+#### (1) thread类
+
+C\++11中引入了一个用于多线程操作的thread类，简单多线程示例：
+```c++
+#include <iostream>
+#include <thread>
+#include <unistd.h>
+using namespace std;
+
+void thread01()
+{
+    for(int i=0; i < 5; ++i)
+    {
+        cout << "Thread 01 is working!" <<endl;
+        sleep(1);
+    }
+}
+
+void thread02()
+{
+    for(int i=0; i < 5; ++i)
+    {
+        cout << "Thread 02 is working!" <<endl;
+        sleep(1);
+    }
+}
+
+int main()
+{
+    thread task01(thread01);
+    thread task02(thread02);
+    task01.join();
+    task02.join();
+    for(int i=0; i < 5; ++i)
+    {
+        cout << "Main thread is working." <<endl;
+        sleep(1);
+    }
+
+    return 0;
+}
+```
+[运行结果]：
+
+![thread_ex1](./images/C-img/thread_ex1.png)
+
+#### (2) detach
+两个子线程并行执行，join函数会阻塞主流程，所以子线程都执行完成之后才继续执行主线程。可以使用detach将子线程从主流程中分离，独立运行，不会阻塞主线程：
+> task01.detach();
+> task02.detach();
+[运行结果]：
+
+![thread_ex2](./images/C-img/thread_ex2.png)
+使用detach的主线程和两个子线程并行执行。
+
+#### (3) 带参子线程
+函数和上面类似，只是带参，调用方式如下：（从略）
+> thread task01(thread01, 5);  //带参数子线程
+> thread task02(thread02, 5);
+
+#### (4) 多线程数据竞争——线程同步
+
+![thread_ex3](./images/C-img/thread_ex3.png)
+
+多线程对同一数据操作时，会出现两个问题，一是有很多变量被重复输出了，而有的变量没有被输出；二是正常情况下每个线程输出的数据后应该紧跟一个换行符，但这里大部分却是另一个线程的输出。
+
+这是由于第一个线程对变量操作的过程中，第二个线程也对同一个变量进行各操作，导致第一个线程处理完后的输出有可能是线程二操作的结果。针对这种数据竞争的情况，可以使用线程互斥对象mutex保持数据同步。
+mutex类的使用需要包含头文件mutex：
+```c++
+#include <mutex>
+mutex mu;  //线程互斥对象
+int num = 100;  //全局变量
+
+void thread01()
+{
+    while(num > 0)
+    {
+    	mu.lock();
+    	cout << num <<endl;
+    	--num;
+    	sleep(1);
+    	mu.unlock();
+    }
+}
+```
+[mutex运行结果]：
+多线程中加入mutex互斥对象之后输出正常：
+
+![thread_ex4](./images/C-img/thread_ex4.png)
 
 
