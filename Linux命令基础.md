@@ -64,4 +64,15 @@ C-a ] -> Paste，把刚刚在 copy mode 选定的内容贴上
 
 ---
 
-## 3. 
+## 3. Linux下视频转为gif
+
+### 使用ffmpeg
+
+没有的话先安装：
+> sudo apt install ffmpeg
+
+使用：
+> ffmpeg -t 3.6 -ss 00:00:01 -i Screencast_2016-01-13-17-01-38.mp4  small-clip.gif
+
+注释：3.6是秒数，00:00:01是开始时间。
+这一个命令足够走天下了。
